@@ -1,0 +1,7 @@
+[[kernel]]
+archive = "linux-6.6.6.tar.xz"
+config = "linux-6.6.6-config"
+
+[[kernel]]
+archive = "linux-6.7.4"
+config = "linux-6.7.4-config"
