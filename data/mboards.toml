@@ -1,0 +1,7 @@
+[[mboard]]
+name = "opi-3lts"
+pretty = "Orange Pi 3 LTS"
+
+[[mboard]]
+name = "opi-3b"
+pretty = "Orange Pi 3B"
