@@ -14,9 +14,6 @@ pub struct Run {
     /// The user on whose behalf the script will be run
     user: String,
 
-    /// Path to the interpreter that will be used to run the script
-    shell: String,
-
     /// Path to the script to be run
     script: String,
 }
@@ -45,7 +42,6 @@ impl Run {
     pub fn new(user: &str, script: &str) -> Self {
         Self {
             user: user.to_string(),
-            shell: "/bin/bash".to_string(),
             script: script.to_string(),
         }
     }
@@ -55,7 +51,6 @@ impl Run {
         let code = Command::new("su")
             .arg(&self.user)
             .arg("-c")
-            .arg(&self.shell)
             .arg(&self.script)
             .status()?
             .code()
