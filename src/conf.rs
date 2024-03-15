@@ -1,11 +1,9 @@
 //! Serialization and deserialization of data and configurations
 
-use anyhow::Result;
 use serde::Deserialize;
 use serde::Serialize;
-use std::fs;
-use std::path::Path;
-use toml;
+
+use crate::traits::TomlConfig;
 
 /// List of motherboards (single board computers) for which system build is possible
 #[derive(Deserialize, Serialize)]
@@ -27,16 +25,46 @@ pub struct MBoard {
     pub pretty: String,
 }
 
-impl MBoardsAll {
-    pub fn read<P: AsRef<Path>>(pth: P) -> Result<Self> {
-        let data = fs::read_to_string(&pth)?;
-        Ok(toml::from_str(&data)?)
-    }
-
-    pub(crate) fn write<P: AsRef<Path>>(&self, pth: P) -> Result<()> {
-        let data = toml::to_string_pretty(&self)?;
-        fs::write(&pth, data)?;
-
-        Ok(())
-    }
+/// Local build system settings for a specific motherboard
+#[derive(Deserialize, Serialize)]
+pub struct MBoardSettings {
+    /// Information about the Linux kernels available for this motherboard
+    pub kernel: Vec<MBoardKernel>,
 }
+
+/// Information about the Linux kernels available for this motherboard
+#[derive(Deserialize, Serialize)]
+pub struct MBoardKernel {
+    /// Name of the archive with the kernel source code
+    pub archive: String,
+
+    /// Name of the configuration file for this kernel version
+    pub config: String,
+}
+
+/// Default build system settings
+#[derive(Deserialize, Serialize)]
+pub struct Defaults {
+    pub system_name: String,
+    pub system_version: String,
+}
+
+/// Build system config parameters (`.config.toml`)
+#[derive(Deserialize, Serialize)]
+pub struct DotConfig {
+    /// Motherboard name (`MBoard.name`)
+    pub board_name: String,
+
+    /// Linux kernel version used
+    pub kernel: MBoardKernel,
+
+    /// System name and version
+    pub system: Defaults,
+}
+
+impl TomlConfig for MBoardsAll {}
+impl TomlConfig for MBoard {}
+impl TomlConfig for MBoardSettings {}
+impl TomlConfig for MBoardKernel {}
+impl TomlConfig for Defaults {}
+impl TomlConfig for DotConfig {}
