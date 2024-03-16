@@ -5,3 +5,27 @@ pretty = "Orange Pi 3 LTS"
 [[mboard]]
 name = "opi-3b"
 pretty = "Orange Pi 3B"
+
+[[mboard]]
+name = "1"
+pretty = "Pinebook Pro"
+
+[[mboard]]
+name = "1"
+pretty = "MacBook Pro 2037"
+
+[[mboard]]
+name = "1"
+pretty = "Orange Pi 5 Pro"
+
+[[mboard]]
+name = "1"
+pretty = "Orange Pi 5B"
+
+[[mboard]]
+name = "1"
+pretty = "Orange Pi 5+"
+
+[[mboard]]
+name = "1"
+pretty = "Raspberry Pi 3 Model B"
