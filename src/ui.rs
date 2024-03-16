@@ -9,7 +9,6 @@ use cursive::views::TextView;
 use cursive::Cursive;
 
 use crate::conf::Defaults;
-use crate::conf::MBoardSettings;
 use crate::traits::TomlConfig;
 
 pub fn is_quit(scr: &mut Cursive) {
@@ -48,10 +47,6 @@ pub fn menuconfig_window() {
     master::mboards_select_window(
         &mut scr,
         &crate::conf::MBoardsAll::parse("data/mboards.toml").unwrap(),
-    );
-    master::mboard_select_kernel_window(
-        &mut scr,
-        &MBoardSettings::parse("data/opi-3b/kernel.toml").unwrap(),
     );
 
     scr.run();
