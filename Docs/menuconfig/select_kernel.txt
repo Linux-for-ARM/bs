@@ -1,0 +1,6 @@
+        +=======================================+
+        | Motherboard's kernel selection screen |
+        +=======================================+
+Sometimes multiple versions of the Linux kernel are allowed to be built for a selected motherboard. Therefore, you are required to select the specific version of Linux to be built.
+
+WARNING: please note that this build system uses the config created by the LFA developers to build the Linux kernel. If you want to build a Linux kernel with specific parameters you want, you need to replace the config file in the config directory of that version of the kernel (data/<YOUR_MOTHERBOARD_DIR>/linux-<KERNEL_VERSION>-config file)

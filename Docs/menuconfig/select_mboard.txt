@@ -1,0 +1,9 @@
+        +=======================================+
+        | Computer motherboard selection screen |
+        +=======================================+
+
+Although the build of the main system components is universal for every computer, there are a number of programs, such as the boot loader and the system kernel, which are built specific to each computer motherboard. Consequently, the LFA build system builds a number of packages for each board separately.
+
+Although the build of the main system components is universal for every computer, there are a number of programs, such as the boot loader and the system kernel, which are built specific to each computer motherboard. Consequently, the LFA build system builds a number of packages for each board separately.
+
+You are therefore required to select the motherboard/single board computer to be built for in this menu. Find the computer you want in the list below and press <Enter>. Navigate through the menu using the <Up> and <Down> keys (arrow keys).

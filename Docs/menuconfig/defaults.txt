@@ -1,0 +1,12 @@
+                 +===================+
+                 | Defaults settings |
+                 +===================+
+
+For each build session, the user specifies a number of required parameters, and it is allowed to have different parameters for each session.
+
+However, there are a number of parameters that must be the same for each session and each user. Therefore, these standard parameters have been placed in a separate configuration file. At the moment there is only the system name and version:
+
+  * name: LFA
+  * version: <LFA handbook version>.
+
+Usually the build system is used by LFA developers to test the correctness of the instructions in the handbook, so we don't need to change these parameters. But if you <not an LFA developer> need to change the default system name and version, then use this window to change them.

@@ -2,6 +2,8 @@ mod traits;
 mod conf;
 mod run;
 
+mod ui;
+
 fn main() {
-    println!("Hello, world!");
+    ui::menuconfig_window();
 }
