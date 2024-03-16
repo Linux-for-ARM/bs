@@ -13,7 +13,7 @@ pub struct MBoardsAll {
 }
 
 /// List of motherboards (single board computers) for which system build is possible
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Eq, PartialEq, Clone)]
 pub struct MBoard {
     /// A short name that is used in directory names and other file names, and to
     /// specify the motherboard in the build system parameters (e.g. `opi-3lts`)
@@ -68,3 +68,24 @@ impl TomlConfig for MBoardSettings {}
 impl TomlConfig for MBoardKernel {}
 impl TomlConfig for Defaults {}
 impl TomlConfig for DotConfig {}
+
+impl Ord for MBoard {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.pretty.cmp(&other.pretty)
+    }
+}
+
+impl PartialOrd for MBoard {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Default for Defaults {
+    fn default() -> Self {
+        Self {
+            system_name: "LFA".to_string(),
+            system_version: "1.0.0".to_string(),
+        }
+    }
+}
