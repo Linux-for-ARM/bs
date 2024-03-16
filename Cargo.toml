@@ -2,6 +2,8 @@
 name = "bs"
 version = "0.1.0"
 edition = "2021"
+description = "LFA automated build system"
+authors = ["Pelmen Zharenny"]
 
 [profile.release]
 lto = true
@@ -11,7 +13,7 @@ opt-level = "s"
 
 [dependencies]
 anyhow = "1.0.80"
-clap = "4.5.2"
+clap = { version = "4.5.2", features = ["derive"] }
 colored = "2.1.0"
 cursive = "0.20.0"
 serde = { version = "1.0.197", features = ["derive"] }
