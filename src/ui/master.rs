@@ -49,7 +49,7 @@ pub fn mboard_select_kernel_window(scr: &mut Cursive, mboard_settings: &MBoardSe
     let mut kernels = SelectView::new();
 
     for kernel in &mboard_settings.kernel {
-        kernels.add_item(&kernel.archive, kernel.archive.clone());
+        kernels.add_item(&kernel.description, kernel.archive.clone());
     }
 
     let layout = LinearLayout::vertical()

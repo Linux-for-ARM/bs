@@ -35,6 +35,9 @@ pub struct MBoardSettings {
 /// Information about the Linux kernels available for this motherboard
 #[derive(Deserialize, Serialize)]
 pub struct MBoardKernel {
+    /// Description of the kernel to display in the menuconfig
+    pub description: String,
+
     /// Name of the archive with the kernel source code
     pub archive: String,
 
