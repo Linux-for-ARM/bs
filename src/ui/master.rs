@@ -2,6 +2,7 @@ use cursive::Cursive;
 use std::env::set_var;
 
 use cursive::traits::Scrollable;
+use cursive::traits::Resizable;
 
 use cursive::views::Dialog;
 use cursive::views::LinearLayout;
@@ -37,7 +38,7 @@ pub fn mboards_select_window(scr: &mut Cursive, mboards: &MBoardsAll) {
 
     let layout = LinearLayout::vertical()
         .child(text)
-        .child(Panel::new(boards.scrollable()));
+        .child(Panel::new(boards.scrollable().max_height(15)));
 
     let win = Dialog::around(layout)
         .title("Select your motherboard")
@@ -77,11 +78,13 @@ pub fn mboard_select_kernel_window(scr: &mut Cursive, mboard_settings: &MBoardSe
 }
 
 fn on_selected_mboard(scr: &mut Cursive, board: &String) {
-    scr.pop_layer();
     set_var("LFA_BS_MBOARD", board);
 
     match MBoardSettings::parse(format!("data/{}/kernel.toml", board)) {
-        Ok(conf) => mboard_select_kernel_window(scr, &conf),
+        Ok(conf) => {
+            scr.pop_layer();
+            mboard_select_kernel_window(scr, &conf);
+        },
         Err(why) => error_full_window(
             scr,
             "Error parsing the selected motherboard config file!",
