@@ -1,3 +1,4 @@
+pub mod error;
 pub mod help;
 pub mod master;
 pub mod service;
@@ -9,6 +10,7 @@ use cursive::views::TextView;
 use cursive::Cursive;
 
 use crate::conf::Defaults;
+use crate::conf::MBoardsAll;
 use crate::traits::TomlConfig;
 
 pub fn is_quit(scr: &mut Cursive) {
@@ -31,7 +33,14 @@ pub fn menuconfig_window() {
         .add_subtree(
             "Edit",
             Tree::new().leaf("Edit defaults", |s| {
-                service::defaults_edit_win(s, &Defaults::default())
+                match Defaults::parse("data/defaults.toml") {
+                    Ok(conf) => service::defaults_edit_win(s, &conf),
+                    Err(why) => error::error_full_window(
+                        s,
+                        "Parsing error of the default settings file",
+                        why,
+                    ),
+                }
             }),
         )
         .add_subtree(
@@ -44,10 +53,14 @@ pub fn menuconfig_window() {
     scr.set_autohide_menu(false);
     scr.set_global_callback(Key::F1, |s| s.select_menubar());
 
-    master::mboards_select_window(
-        &mut scr,
-        &crate::conf::MBoardsAll::parse("data/mboards.toml").unwrap(),
-    );
+    match MBoardsAll::parse("data/mboards.toml") {
+        Ok(conf) => master::mboards_select_window(&mut scr, &conf),
+        Err(why) => error::error_full_window(
+            &mut scr,
+            "Error parsing a file with a list of motherboards!",
+            why,
+        ),
+    }
 
     scr.run();
 }

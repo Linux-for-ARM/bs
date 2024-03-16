@@ -12,11 +12,14 @@ use cursive::views::TextView;
 use crate::conf::MBoardSettings;
 use crate::conf::MBoardsAll;
 use crate::traits::TomlConfig;
+
+use crate::ui::error::error_full_window;
 use crate::ui::help::help_window;
 
 pub fn mboards_select_window(scr: &mut Cursive, mboards: &MBoardsAll) {
     let text = TextView::new(
-        "Please select the motherboard/computer for which you will be building your LFA system.",
+        "Please select the motherboard/computer for which\n\
+                  you will be building your LFA system.",
     );
 
     let mut mboards = mboards.mboard.clone();
@@ -72,8 +75,14 @@ fn on_selected_mboard(scr: &mut Cursive, board: &String) {
     scr.pop_layer();
     set_var("LFA_BS_MBOARD", board);
 
-    let mboard_config = MBoardSettings::parse(format!("data/{}/kernel.toml", board)).unwrap();
-    mboard_select_kernel_window(scr, &mboard_config);
+    match MBoardSettings::parse(format!("data/{}/kernel.toml", board)) {
+        Ok(conf) => mboard_select_kernel_window(scr, &conf),
+        Err(why) => error_full_window(
+            scr,
+            "Error parsing the selected motherboard config file!",
+            why,
+        ),
+    }
 }
 
 fn on_selected_kernel(scr: &mut Cursive, kernel: &String) {
