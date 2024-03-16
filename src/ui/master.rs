@@ -48,6 +48,11 @@ pub fn mboards_select_window(scr: &mut Cursive, mboards: &MBoardsAll) {
 }
 
 pub fn mboard_select_kernel_window(scr: &mut Cursive, mboard_settings: &MBoardSettings) {
+    if mboard_settings.kernel.len() == 1 {
+        on_selected_kernel(scr, &mboard_settings.kernel[0].archive);
+        return ();
+    }
+
     let text = TextView::new("There are several versions of the Linux kernel\n\
                                                  available for your motherboard. Select the desired\n\
                                                  kernel from the list below.");

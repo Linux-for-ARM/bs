@@ -3,7 +3,7 @@ description = "Linux 6.6.6 [RECOMMEND]"
 archive = "linux-6.6.6.tar.xz"
 config = "linux-6.6.6-config"
 
-[[kernel]]
-description = "Linux 6.7.4"
-archive = "linux-6.7.4"
-config = "linux-6.7.4-config"
+# [[kernel]]
+# description = "Linux 6.7.4"
+# archive = "linux-6.7.4"
+# config = "linux-6.7.4-config"
