@@ -8,6 +8,7 @@ use std::time::SystemTime;
 
 use serde::Deserialize;
 use serde::Serialize;
+use crate::traits::TomlConfig;
 // use toml;
 
 pub struct Run {
@@ -36,6 +37,17 @@ pub struct RunLog {
 pub struct Log {
     pub script: String,
     pub result: RunResult,
+}
+
+impl TomlConfig for RunLog {}
+
+impl RunLog {
+    pub fn append(&mut self, log: Log) -> Result<()> {
+        self.package.push(log);
+        self.write("build.log")?;
+
+        Ok(())
+    }
 }
 
 impl Run {
