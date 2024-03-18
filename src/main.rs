@@ -14,7 +14,7 @@ fn main() {
     // ui::menuconfig_window();
     let cli = cli::Cli::parse();
     match cli.work_mode {
-        WorkMode::Config => {
+        WorkMode::Menuconfig => {
             ui::menuconfig_window();
             println!(
                 "{}/{} ({})",
