@@ -50,6 +50,7 @@ pub struct MBoardKernel {
 pub struct Defaults {
     pub system_name: String,
     pub system_version: String,
+    pub makeflags: String,
 }
 
 /// Build system config parameters (`.config.toml`)
@@ -89,6 +90,7 @@ impl Default for Defaults {
         Self {
             system_name: "LFA".to_string(),
             system_version: "1.0.0".to_string(),
+            makeflags: "".to_string(),
         }
     }
 }
