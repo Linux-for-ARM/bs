@@ -17,9 +17,10 @@ fn main() {
         WorkMode::Config => {
             ui::menuconfig_window();
             println!(
-                "{}/{}",
+                "{}/{} ({})",
                 var("LFA_BS_MBOARD").unwrap(),
-                var("LFA_BS_KERNEL").unwrap()
+                var("LFA_BS_KERNEL").unwrap(),
+                var("LFA_BS_KERNEL_CONF_MODE").unwrap(),
             );
         },
         WorkMode::ConfigureHost => todo!(),

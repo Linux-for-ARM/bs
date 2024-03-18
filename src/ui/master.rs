@@ -1,8 +1,9 @@
+use cursive::views::RadioGroup;
 use cursive::Cursive;
 use std::env::set_var;
 
-use cursive::traits::Scrollable;
 use cursive::traits::Resizable;
+use cursive::traits::Scrollable;
 
 use cursive::views::Dialog;
 use cursive::views::LinearLayout;
@@ -77,6 +78,38 @@ pub fn mboard_select_kernel_window(scr: &mut Cursive, mboard_settings: &MBoardSe
     scr.add_layer(win);
 }
 
+pub fn kernel_configuration_window(scr: &mut Cursive) {
+    let text = TextView::new("Select a kernel configuration option:");
+    let mut config = RadioGroup::new();
+    config.set_on_change(on_change_kernel_conf);
+
+    let config_mode = LinearLayout::vertical()
+        .child(config.button(
+            "default_lfa".to_string(),
+            "Use the ready-made `.config' from the LFA developers",
+        ))
+        .child(config.button(
+            "menuconfig".to_string(),
+            "Run `make menuconfig' before compiling the kernel",
+        ))
+        .child(config.button(
+            "defconfig".to_string(),
+            "Run `make defconfig' before compiling the kernel",
+        ));
+
+    let layout = LinearLayout::vertical()
+        .child(text)
+        .child(Panel::new(config_mode));
+
+    let win = Dialog::around(layout)
+        .title("Kernel configuration mode")
+        .button("OK", |s| s.quit())
+        .button("Cancel", |s| super::is_quit(s))
+        .button("Help", |s| help_window(s, "kernel_configuration"));
+
+    scr.add_layer(win);
+}
+
 fn on_selected_mboard(scr: &mut Cursive, board: &String) {
     set_var("LFA_BS_MBOARD", board);
 
@@ -84,7 +117,7 @@ fn on_selected_mboard(scr: &mut Cursive, board: &String) {
         Ok(conf) => {
             scr.pop_layer();
             mboard_select_kernel_window(scr, &conf);
-        },
+        }
         Err(why) => error_full_window(
             scr,
             "Error parsing the selected motherboard config file!",
@@ -95,5 +128,10 @@ fn on_selected_mboard(scr: &mut Cursive, board: &String) {
 
 fn on_selected_kernel(scr: &mut Cursive, kernel: &String) {
     set_var("LFA_BS_KERNEL", kernel);
-    scr.quit();
+    scr.pop_layer();
+    kernel_configuration_window(scr);
+}
+
+fn on_change_kernel_conf(_scr: &mut Cursive, conf_mode: &String) {
+    set_var("LFA_BS_KERNEL_CONF_MODE", conf_mode);
 }

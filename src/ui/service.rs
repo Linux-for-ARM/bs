@@ -26,6 +26,12 @@ pub fn defaults_edit_win(scr: &mut Cursive, defs: &Defaults) {
             EditView::new()
                 .content(&defs.system_version)
                 .with_name("defaults.system_version"),
+        )
+        .child(
+            "Make flags:",
+            EditView::new()
+                .content(&defs.makeflags)
+                .with_name("defaults.makeflags"),
         );
 
     let layout = LinearLayout::vertical()
