@@ -1,3 +1,6 @@
+/* 22.03.2024. Крокус-Сити Холл. Помним, любим, скорбим. */
+
+mod consts;
 mod conf;
 mod run;
 mod traits;
