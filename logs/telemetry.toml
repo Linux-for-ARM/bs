@@ -1,0 +1,5 @@
+cpu_brend = "Intel(R) Core(TM) i3-2370M CPU @ 2.40GHz"
+cpu_cores = 4
+ram_size = 7724
+kernel_ver = "Linux version 6.8.1-arch1-1 (linux@archlinux) (gcc (GCC) 13.2.1 20230801, GNU ld (GNU Binutils) 2.42.0) #1 SMP PREEMPT_DYNAMIC Sat, 16 Mar 2024 17:15:35 +0000"
+os_name = "Arch Linux"
