@@ -9,7 +9,7 @@ mod reqs;
 mod cli;
 mod ui;
 
-use std::env::var;
+use std::{env::var, process::exit};
 use clap::Parser;
 
 use cli::WorkMode;
@@ -30,9 +30,8 @@ fn main() {
         WorkMode::ConfigureHost => todo!(),
         WorkMode::Build => {
             if !check_reqs() {
-                eprintln!("Ваш компьютер не удовлетворяет минимальным системным требованиям!");
+                exit(1);
             }
-            //todo!();
         },
     }
 }
@@ -46,10 +45,16 @@ fn check_reqs() -> bool {
     println!("{ram} {processors}");
 
     if ram < consts::MIN_REQ_RAM {
+        eprintln!("Error: Your computer is not compatible with the requirements of the build system");
+        eprintln!("Not enough RAM (minimum {} MB)", consts::MIN_REQ_RAM);
+
         return false;
     }
 
     if processors < consts::MIN_REQ_PROCESSORS {
+        eprintln!("Error: Your computer is not compatible with the requirements of the build system");
+        eprintln!("Not enough processor cores (minimum {})", consts::MIN_REQ_PROCESSORS);
+
         return false;
     }
 
