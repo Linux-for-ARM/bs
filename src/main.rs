@@ -4,6 +4,7 @@ mod consts;
 mod conf;
 mod run;
 mod traits;
+mod reqs;
 
 mod cli;
 mod ui;
@@ -27,6 +28,30 @@ fn main() {
             );
         },
         WorkMode::ConfigureHost => todo!(),
-        WorkMode::Build => todo!(),
+        WorkMode::Build => {
+            if !check_reqs() {
+                eprintln!("Ваш компьютер не удовлетворяет минимальным системным требованиям!");
+            }
+            //todo!();
+        },
     }
+}
+
+fn check_reqs() -> bool {
+    let hard = reqs::Hardware::new().unwrap();
+
+    let ram = hard.ram_size;
+    let processors = hard.cpu_cores;
+
+    println!("{ram} {processors}");
+
+    if ram < consts::MIN_REQ_RAM {
+        return false;
+    }
+
+    if processors < consts::MIN_REQ_PROCESSORS {
+        return false;
+    }
+
+    true
 }
