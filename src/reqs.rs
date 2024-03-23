@@ -1,7 +1,9 @@
-use std::fs;
 use anyhow::Result;
-use serde::Serialize;
 use serde::Deserialize;
+use serde::Serialize;
+use std::fs;
+
+use crate::traits::TomlConfig;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Hardware {
@@ -11,6 +13,8 @@ pub struct Hardware {
     pub kernel_ver: String,
     pub os_name: String,
 }
+
+impl TomlConfig for Hardware {}
 
 impl Hardware {
     pub fn new() -> Result<Self> {
@@ -22,13 +26,15 @@ impl Hardware {
             cpu_brend: Self::get_cpu_model(&cpuinfo),
             cpu_cores: Self::get_cpu_cores(&cpuinfo),
             ram_size: Self::get_ram_size(&meminfo),
-            kernel_ver: fs::read_to_string("/proc/version").unwrap_or("Linux version UNKNOWN".to_string()),
+            kernel_ver: fs::read_to_string("/proc/version")
+                .unwrap_or("Linux version UNKNOWN".to_string()),
             os_name: Self::get_os_name(&os_rel),
         })
     }
 
     fn get_cpu_model(cpuinfo: &str) -> String {
-        let cpu = cpuinfo.lines()
+        let cpu = cpuinfo
+            .lines()
             .filter(|line| line.contains("model name"))
             .collect::<Vec<_>>();
         let model: Vec<&str> = cpu[0].split(':').collect();
@@ -36,7 +42,8 @@ impl Hardware {
     }
 
     fn get_cpu_cores(cpuinfo: &str) -> u8 {
-        let cpu = cpuinfo.lines()
+        let cpu = cpuinfo
+            .lines()
             .filter(|line| line.contains("processor"))
             .collect::<Vec<_>>();
 
@@ -54,7 +61,8 @@ impl Hardware {
     }
 
     fn get_ram_size(meminfo: &str) -> u64 {
-        let mem = meminfo.lines()
+        let mem = meminfo
+            .lines()
             .filter(|line| line.contains("MemTotal"))
             .collect::<Vec<_>>();
 
@@ -71,13 +79,14 @@ impl Hardware {
                 } else {
                     0
                 }
-            },
+            }
             None => 0,
         }
     }
 
     fn get_os_name(os_rel: &str) -> String {
-        let os = os_rel.lines()
+        let os = os_rel
+            .lines()
             .filter(|line| line.contains("NAME="))
             .collect::<Vec<_>>();
 
