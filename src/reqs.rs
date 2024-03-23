@@ -27,7 +27,7 @@ impl Hardware {
             cpu_cores: Self::get_cpu_cores(&cpuinfo),
             ram_size: Self::get_ram_size(&meminfo),
             kernel_ver: fs::read_to_string("/proc/version")
-                .unwrap_or("Linux version UNKNOWN".to_string()),
+                .unwrap_or("Linux version UNKNOWN".to_string()).trim().to_string(),
             os_name: Self::get_os_name(&os_rel),
         })
     }
