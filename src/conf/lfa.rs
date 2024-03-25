@@ -9,6 +9,8 @@ use crate::consts::BUILD_SCRIPTS_URL;
 use crate::consts::LFA_VERSION_CONF;
 use crate::error::Error;
 use crate::traits::TomlConfig;
+use crate::utils::download;
+use crate::utils::extract;
 
 /// List of all LFA versions
 #[derive(Serialize, Deserialize)]
@@ -36,40 +38,20 @@ impl LFAVersion {
     }
 
     /// Downloads an archive with files of the build system
-    /// 
+    ///
     /// The archive contains build instructions and a number of other files. Each
     /// archive refers to a specific LFA version.
-    pub fn download(&self, ver: &Version) -> Result<(), Error> {
-        let cmd = Command::new("/usr/bin/wget")
-            .arg(format!(
-                // формируем URL до архива с файлами системы сборки
-                "{}/scripts-{}.tar.xz",
-                BUILD_SCRIPTS_URL, &ver.version
-            ))
-            .status()
-            .map_err(|err| Error::DownloadError(err.to_string()))?;
-
-        if !cmd.success() {
-            Err(Error::DownloadError("unsuccess download".to_string()))
-        } else {
-            Ok(())
-        }
+    pub fn download(&self, ver: &Version) -> Result<String, Error> {
+        let url = format!("{}/scripts-{}.tar.xz", BUILD_SCRIPTS_URL, &ver.version);
+        download(&url)
     }
 
     /// Extracts the downloaded archive
-    /// 
+    ///
     /// It is guaranteed that the archive contains `data/` directory
     /// with all necessary data.
     pub fn extract(&self, ver: &Version) -> Result<(), Error> {
-        let cmd = Command::new("/bin/tar")
-            .arg(format!("-xvf ./scripts-{}.tar.xz", &ver.version))
-            .status()
-            .map_err(|err| Error::ExtractError(err.to_string()))?;
-
-        if !cmd.success() {
-            Err(Error::ExtractError("unsuccess extract".to_string()))
-        } else {
-            Ok(())
-        }
+        let file = format!("./scripts-{}.tar.xz", &ver.version);
+        extract(&file)
     }
 }
