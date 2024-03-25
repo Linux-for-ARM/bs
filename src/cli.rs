@@ -1,21 +1,4 @@
-use clap::Parser;
-use clap::Subcommand;
+//! Command line User Interface
 
-#[derive(Parser)]
-#[command(version, about, long_about = None)]
-pub struct Cli {
-    #[command(subcommand)]
-    pub work_mode: WorkMode,
-}
-
-#[derive(Subcommand)]
-pub enum WorkMode {
-    /// Set up the build system
-    Menuconfig,
-
-    /// Prepare the host system for LFA builds
-    ConfigureHost,
-
-    /// Perform the LFA build
-    Build,
-}
+pub mod cmd;
+pub mod msg;

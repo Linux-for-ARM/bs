@@ -1,0 +1,1 @@
+//! Collects information about target computer

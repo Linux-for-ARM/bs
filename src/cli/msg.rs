@@ -1,0 +1,1 @@
+//! Output formatted messages of differennt types to the console

@@ -1,0 +1,1 @@
+//! Master configurator windows
